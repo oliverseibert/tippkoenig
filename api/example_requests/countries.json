@@ -1,0 +1,29 @@
+{
+  "api": {
+    "results": 22,
+    "countries": {
+      "1": "Argentina",
+      "2": "Belarus",
+      "3": "Belgium",
+      "4": "Brazil",
+      "5": "Bulgaria",
+      "6": "China",
+      "7": "Costa Rica",
+      "8": "Denmark",
+      "9": "England",
+      "10": "France",
+      "11": "Germany",
+      "12": "Iceland",
+      "13": "Italy",
+      "14": "Japan",
+      "15": "Netherlands",
+      "16": "Norway",
+      "17": "Poland",
+      "18": "Portugal",
+      "19": "Spain",
+      "20": "Sweden",
+      "21": "Wales",
+      "22": "World"
+    }
+  }
+}
