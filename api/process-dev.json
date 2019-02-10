@@ -1,0 +1,11 @@
+{
+  "name": "tippkoenig-api-dev",
+  "script": "./dist/server.js",
+  "watch": false,
+  "log_date_format": "DD-MM HH:mm:ss.SSS",
+  "env": {
+    "production": false,
+    "httpPort": 14531,
+    "httpsPort": 14530
+  }
+}
