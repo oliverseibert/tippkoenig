@@ -10,7 +10,7 @@ https://www.digitalocean.com/community/tutorials/how-to-install-mongodb-on-debia
 Getting Started:
 mongo
 use tippkoenig
-db.registries.save({registryId:1,showFullscreenAdIOS:true,showFullscreenAdAndroid:true,showBannerAdIOS:true,showBannerAdAndroid:true,showFullscreenAdCounter:15})
+db.registries.save({_id:"1",showFullscreenAdIOS:true,showFullscreenAdAndroid:true,showBannerAdIOS:true,showBannerAdAndroid:true,showFullscreenAdCounter:15})
 db.createUser({user: "tippkoenigUser", pwd: "jf984ntf#", roles: [{role: "readWrite", db: "tippkoenig"}]});
 db.createUser({user: "tippkoenigAdmin", pwd: "e94n94nr#", roles: [{role: "dbAdmin", db: "tippkoenig"}]});
 

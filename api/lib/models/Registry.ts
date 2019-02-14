@@ -3,11 +3,7 @@ import * as mongoose from 'mongoose';
 const Schema = mongoose.Schema;
 
 export const RegistrySchema = new Schema({
-  registryId: {
-    type: Number,
-    required: true,
-    unique: true
-  },
+  _id: String,
   showFullscreenAdIOS: {
     type: Boolean,
     default: true
