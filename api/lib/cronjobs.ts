@@ -5,14 +5,13 @@ const cronController: CronController = new CronController();
 
 const initCronjobs = () => {
   cron.schedule('*/5 * * * *', () => {
-    console.log('running testCronjob task every five minutes');
-    cronController.testCronjob();
+    console.log('running getLeagues(), getTeams() task every five minutes');
     cronController.getLeagues();
     cronController.getTeams();
   });
 
   cron.schedule('*/1 * * * *', () => {
-    console.log('running getFixtures task every minute');
+    console.log('running getFixtures() task every minute');
     cronController.getFixtures();
   });
 }

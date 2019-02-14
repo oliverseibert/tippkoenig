@@ -10,5 +10,6 @@ export const LeagueSchema = new Schema({
   season_start: Date,
   season_end: Date,
   logo: String,
-  standings: Boolean
+  standings: Boolean,
+  active: Boolean
 });
