@@ -25,6 +25,8 @@ export class CronController {
 
         _.forEach(leagues, (league) => {
           _.set(league, '_id', league.league_id);
+          // TODO: if statement can be removed when loaded from api
+          if (_.includes(leaguesToLoad, league._id)) league.active = true;
           this.leagueController.save(league);
         });
       });
