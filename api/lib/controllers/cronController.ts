@@ -4,6 +4,11 @@ import { TeamController } from './teamController';
 import { LeagueController } from './leagueController';
 const fetch = require('node-fetch');
 
+const httpHeaders = {
+  'X-RapidAPI-Key': process.env.footballApiKey,
+  'Accept': 'application/json'
+}
+
 export class CronController {
   fixtureController = new FixtureController();
   teamController = new TeamController();
@@ -16,7 +21,7 @@ export class CronController {
       // load only the leagues we want to
       _.forEach(leaguesToLoad, async (leagueId) => {
         const response = await fetch('https://oliver-seibert.de/tippkoenig/leagues.json');
-        // const response = await fetch(`https://api-football-v1.p.rapidapi.com/leagues/league/${leagueId}`);
+        // const response = await fetch(`https://api-football-v1.p.rapidapi.com/leagues/league/${leagueId}`, httpHeaders);
         const json = await response.json();
         const leagues = _.toArray(_.get(json, 'api.leagues'));
 
@@ -42,7 +47,7 @@ export class CronController {
       // iterate over activeLeagues and get teams for each
       _.forEach(activeLeagues, async (league) => {
         const response = await fetch('https://oliver-seibert.de/tippkoenig/bundesliga-teams.json');
-        // const response = await fetch(`https://api-football-v1.p.rapidapi.com/teams/league/${league._id}`);
+        // const response = await fetch(`https://api-football-v1.p.rapidapi.com/teams/league/${league._id}`, httpHeaders);
         const json = await response.json();
         const teams = _.toArray(_.get(json, 'api.teams'));
 
@@ -65,7 +70,7 @@ export class CronController {
       // iterate over activeLeagues and get fixtures for each
       _.forEach(activeLeagues, async (league) => {
         const response = await fetch('https://oliver-seibert.de/tippkoenig/bundesliga-fixtures.json');
-        // const response = await fetch(`https://api-football-v1.p.mashape.com/fixtures/league/${league._id}`);
+        // const response = await fetch(`https://api-football-v1.p.mashape.com/fixtures/league/${league._id}`, httpHeaders);
         const json = await response.json();
         const fixtures = _.toArray(_.get(json, 'api.fixtures'));
 
