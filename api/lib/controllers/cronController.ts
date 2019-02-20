@@ -4,10 +4,11 @@ import { TeamController } from './teamController';
 import { LeagueController } from './leagueController';
 const fetch = require('node-fetch');
 
+const production = process.env.production === 'true';
 const httpHeaders = {
-  'X-RapidAPI-Key': process.env.footballApiKey,
+  'X-RapidAPI-Key': process.env.football_api_key,
   'Accept': 'application/json'
-}
+};
 
 export class CronController {
   fixtureController = new FixtureController();
@@ -16,24 +17,23 @@ export class CronController {
 
   async getLeagues() {
     try {
-      const leaguesToLoad = ["8"]; // TODO: load from .env
+      const response = await fetch('https://oliver-seibert.de/tippkoenig/leagues.json');
+      // const response = await fetch(`https://api-football-v1.p.rapidapi.com/leagues}`, httpHeaders);
+      const json = await response.json();
+      const leagues = _.toArray(_.get(json, 'api.leagues'));
 
-      // load only the leagues we want to
-      _.forEach(leaguesToLoad, async (leagueId) => {
-        const response = await fetch('https://oliver-seibert.de/tippkoenig/leagues.json');
-        // const response = await fetch(`https://api-football-v1.p.rapidapi.com/leagues/league/${leagueId}`, httpHeaders);
-        const json = await response.json();
-        const leagues = _.toArray(_.get(json, 'api.leagues'));
+      console.log('leagues', _.size(leagues));
 
-        // should only contain one item when loaded from api
-        console.log('leagues', _.size(leagues));
+      _.forEach(leagues, (league) => {
+        _.set(league, '_id', league.league_id);
 
-        _.forEach(leagues, (league) => {
-          _.set(league, '_id', league.league_id);
-          // TODO: if statement can be removed when loaded from api
-          if (_.includes(leaguesToLoad, league._id)) league.active = true;
-          this.leagueController.save(league);
-        });
+        // set leagues only active on development env, in prod you have to change it in the db
+        if (production) {
+          const leaguesToSetActive = _.split(process.env.active_leagues, ','); // for development
+          if (_.includes(leaguesToSetActive, league._id)) league.active = true;
+        }
+
+        this.leagueController.save(league);
       });
     } catch (error) {
       console.log(error);

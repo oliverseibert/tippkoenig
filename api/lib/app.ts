@@ -4,6 +4,7 @@ import { Routes } from './routes/Routes';
 import * as mongoose from 'mongoose';
 import { initCronjobs } from './cronjobs';
 var cors = require('cors');
+require('dotenv').config();
 
 class App {
   public app: express.Application;
