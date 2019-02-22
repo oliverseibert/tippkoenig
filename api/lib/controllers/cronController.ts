@@ -28,7 +28,7 @@ export class CronController {
         _.set(league, '_id', league.league_id);
 
         // set leagues only active on development env, in prod you have to change it in the db
-        if (production) {
+        if (!production) {
           const leaguesToSetActive = _.split(process.env.active_leagues, ','); // for development
           if (_.includes(leaguesToSetActive, league._id)) league.active = true;
         }
