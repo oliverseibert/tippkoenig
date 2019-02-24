@@ -2,6 +2,7 @@ import * as _ from 'lodash';
 import { FixtureController } from './fixtureController';
 import { TeamController } from './teamController';
 import { LeagueController } from './leagueController';
+import { StandingController } from './standingController';
 const fetch = require('node-fetch');
 
 const production = process.env.production === 'true';
@@ -14,6 +15,7 @@ export class CronController {
   fixtureController = new FixtureController();
   teamController = new TeamController();
   leagueController = new LeagueController();
+  standingController = new StandingController();
 
   async getLeagues() {
     try {
@@ -88,5 +90,26 @@ export class CronController {
     }
   }
 
-  // TODO: standings
+  async getStandings() {
+    try {
+      const activeLeagues = await this.leagueController.getActiveLeagues();
+
+      // iterate over activeLeagues and get fixtures for each
+      _.forEach(activeLeagues, async (league) => {
+        const response = await fetch('https://oliver-seibert.de/tippkoenig/bundesliga-standings.json');
+        // const response = await fetch(`https://api-football-v1.p.rapidapi.com/leagueTable/${league._id}`, httpHeaders);
+        const json = await response.json();
+        const standings = _.get(json, 'api.standings[0]');
+
+        console.log(`standings count for league ${league.name}`, _.size(standings));
+
+        _.forEach(standings, (standing) => {
+          _.set(standing, 'league_id', league._id);
+          this.standingController.save(standing);
+        });
+      });
+    } catch (error) {
+      console.log(error);
+    }
+  }
 };
