@@ -5,6 +5,8 @@ import { initCronjobs } from './cronjobs';
 var cors = require('cors');
 require('dotenv').config();
 
+require('./models/Users');
+require('./models/Registry');
 require('./config/passport');
 
 class App {
