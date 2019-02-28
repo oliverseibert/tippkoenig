@@ -2,7 +2,7 @@ import * as mongoose from 'mongoose';
 
 const Schema = mongoose.Schema;
 
-export const RegistrySchema = new Schema({
+const RegistrySchema = new Schema({
   _id: String,
   showFullscreenAdIOS: {
     type: Boolean,
@@ -25,3 +25,7 @@ export const RegistrySchema = new Schema({
     default: 15
   }
 });
+
+mongoose.model('Registry', RegistrySchema);
+
+export { RegistrySchema }

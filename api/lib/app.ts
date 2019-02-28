@@ -1,14 +1,14 @@
 import * as express from 'express';
 import * as bodyParser from 'body-parser';
-import { Routes } from './routes/Routes';
 import * as mongoose from 'mongoose';
 import { initCronjobs } from './cronjobs';
 var cors = require('cors');
 require('dotenv').config();
 
+require('./config/passport');
+
 class App {
   public app: express.Application;
-  public routePrv: Routes = new Routes();
   public mongoUrl: string =
     'mongodb://tippkoenigUser:jf984ntf#@localhost/tippkoenig';
 
@@ -16,7 +16,7 @@ class App {
     this.app = express();
     this.app.use(cors());
     this.config();
-    this.routePrv.routes(this.app);
+    this.app.use(require('./routes'));
     this.mongoSetup();
     initCronjobs();
   }
