@@ -7,7 +7,7 @@ export class TeamController {
   async save(data) {
     try {
       let team = new Team(data);
-      team = await Team.findOneAndUpdate({ _id: team._id }, team, { upsert: true });
+      team = await Team.findOneAndUpdate({ _id: team._id }, team, { upsert: true, new: true });
     } catch (err) {
       console.log('saveTeam err', err);
     }

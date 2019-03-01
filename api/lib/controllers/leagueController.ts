@@ -7,7 +7,7 @@ export class LeagueController {
   async save(data: any) {
     try {
       let league = new League(data);
-      league = await League.findOneAndUpdate({ _id: league._id }, league, { upsert: true });
+      league = await League.findOneAndUpdate({ _id: league._id }, league, { upsert: true, new: true });
     } catch (err) {
       console.log('saveLeague err', err);
     }

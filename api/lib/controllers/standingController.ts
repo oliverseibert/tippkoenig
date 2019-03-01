@@ -6,7 +6,7 @@ const Standing = mongoose.model('Standing', StandingSchema);
 export class StandingController {
   async save(data: any) {
     try {
-      let standing = await Standing.findOneAndUpdate({ league_id: data.league_id, rank: data.rank }, data, { upsert: true });
+      let standing = await Standing.findOneAndUpdate({ league_id: data.league_id, rank: data.rank }, data, { upsert: true, new: true });
     } catch (err) {
       console.log('saveFixture err', err);
     }

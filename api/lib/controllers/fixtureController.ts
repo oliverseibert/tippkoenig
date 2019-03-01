@@ -7,7 +7,7 @@ export class FixtureController {
   async save(data: any) {
     try {
       let fixture = new Fixture(data);
-      fixture = await Fixture.findOneAndUpdate({ _id: fixture._id }, fixture, { upsert: true });
+      fixture = await Fixture.findOneAndUpdate({ _id: fixture._id }, fixture, { upsert: true, new: true });
     } catch (err) {
       console.log('saveFixture err', err);
     }

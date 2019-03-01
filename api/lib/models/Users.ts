@@ -5,9 +5,14 @@ import * as jwt from 'jsonwebtoken';
 const { Schema } = mongoose;
 
 const UsersSchema = new Schema({
-  email: String,
+  email: {
+    type: String,
+    unique: true
+  },
   hash: String,
   salt: String,
+  nickname: String,
+  image: Buffer
 });
 
 UsersSchema.methods.setPassword = function (password) {
@@ -36,6 +41,8 @@ UsersSchema.methods.toAuthJSON = function () {
   return {
     _id: this._id,
     email: this.email,
+    nickname: this.nickname,
+    image: this.image,
     token: this.generateJWT(),
   };
 };
