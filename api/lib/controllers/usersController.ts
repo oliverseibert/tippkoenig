@@ -77,10 +77,10 @@ export class UsersController {
   }
 
   async current(req: any, res: any) {
-    const { payload: { id } } = req;
+    const authUser = req.payload; // id, email
 
     try {
-      const user = await Users.findById(id);
+      const user = await Users.findById(authUser.id);
       if (!user) {
         return res.sendStatus(400);
       }
@@ -95,15 +95,15 @@ export class UsersController {
 
   async save(req: any, res: any) {
     const { body: { user } } = req;
-    const { payload: { id } } = req;
+    const authUser = req.payload; // id, email
 
     try {
       let newUser = new Users({
-        _id: id,
+        _id: authUser.id,
         nickname: user.nickname,
         image: user.image,
       });
-      newUser = await Users.findOneAndUpdate({ _id: id }, newUser, { upsert: true, new: true });
+      newUser = await Users.findOneAndUpdate({ _id: authUser.id }, newUser, { upsert: true, new: true });
       return res.json(newUser.toAuthJSON());
     } catch (err) {
       console.log('save User err', err);

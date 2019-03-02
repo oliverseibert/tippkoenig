@@ -1,9 +1,5 @@
-const mongoose = require('mongoose');
-const passport = require('passport');
-import * as jwt from 'express-jwt';
 const router = require('express').Router();
 const auth = require('../auth');
-const Users = mongoose.model('Users');
 
 import { UsersController } from '../../controllers/usersController';
 const usersController: UsersController = new UsersController();

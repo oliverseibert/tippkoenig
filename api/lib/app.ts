@@ -8,6 +8,7 @@ require('dotenv').config();
 // load models + auth
 require('./models/Users');
 require('./models/Registry');
+require('./models/BettingCommunity');
 require('./config/passport');
 
 class App {
