@@ -17,10 +17,19 @@ const BettingCommunitySchema = new Schema({
     ref: 'Users'
   },
   users: [{
-    type: Schema.ObjectId,
-    ref: 'Users'
+    nickname: String, // specific nickname only for this betting community
+    active: {
+      type: Boolean,
+      default: false
+    },
+    user: {
+      type: Schema.ObjectId,
+      ref: 'Users'
+    }
   }]
 });
+
+BettingCommunitySchema.index({ name: 1, league_id: 1 });
 
 mongoose.model('BettingCommunity', BettingCommunitySchema);
 
