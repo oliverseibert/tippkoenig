@@ -18,6 +18,10 @@ const BettingCommunitySchema = new Schema({
   },
   users: [{
     nickname: String, // specific nickname only for this betting community
+    accepted: {
+      type: Boolean,
+      default: false
+    },
     active: {
       type: Boolean,
       default: false

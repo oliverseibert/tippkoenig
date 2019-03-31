@@ -8,7 +8,11 @@ const BettingCommunity = mongoose.model('BettingCommunity', BettingCommunitySche
 export class BettingCommunityController {
   async getById(req: any, res: any) {
     try {
-      const bettingCommunity = await BettingCommunity.findById(req.params.id).populate('admin', '_id email nickname image').populate('users.user', '_id email nickname image'); //;
+      const bettingCommunity = await BettingCommunity.findById(req.params.id)
+        .populate('league_id')
+        .populate('admin', '_id email nickname image')
+        .populate('users.user', '_id email nickname image');
+
       if (!bettingCommunity) {
         return res.sendStatus(404);
       }
@@ -25,7 +29,11 @@ export class BettingCommunityController {
     const authUser = req.payload; // id, email
 
     try {
-      const bettingCommunities = await BettingCommunity.find({ "users.user": authUser.id }).populate('admin', '_id email nickname image').populate('users.user', '_id email nickname image'); //;
+      const bettingCommunities = await BettingCommunity.find({ "users.user": authUser.id })
+        .populate('league_id')
+        .populate('admin', '_id email nickname image')
+        .populate('users.user', '_id email nickname image');
+
       return res.json(bettingCommunities);
     } catch (err) {
       console.log('getForUser error', err);
@@ -64,6 +72,7 @@ export class BettingCommunityController {
       json.users = [
         {
           active: true,
+          accepted: true,
           user: authUser.id
         }
       ];
@@ -72,7 +81,33 @@ export class BettingCommunityController {
       const insertedBettingCommunity = await bettingCommunity.save();
       return res.json(insertedBettingCommunity);
     } catch (err) {
-      console.log('save User err', err);
+      console.log('save bettingCommunity err', err);
+      res.status(400).json(err);
+    }
+  }
+
+  async inviteUser(req: any, res: any) {
+    const authUser = req.payload; // id, email
+
+    try {
+      const bettingCommunity = await BettingCommunity.findById(req.params.id).populate('users.user', '_id email');
+      if (!bettingCommunity) {
+        return res.sendStatus(404);
+      }
+
+      // only admin is allowed to invite new users
+      if (bettingCommunity.admin !== authUser.id) {
+        return res.sendStatus(403);
+      }
+
+      // TODO: check already invited
+
+      // TODO: add + save, create user if it doesnt exist or new attribute invitationMail in BettingCommunity.users?
+
+      // TODO: send mail to new user
+
+    } catch (err) {
+      console.log('inviteUser err', err);
       res.status(400).json(err);
     }
   }
